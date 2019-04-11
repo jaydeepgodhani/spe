@@ -1,0 +1,38 @@
+<?php
+    ini_set('display_errors', 1);
+    error_reporting(E_ALL);
+    include_once('database/database_connections.php');
+
+    $query_t = "select distinct subject from questions";
+    $result_t = mysqli_query($con,$query_t);
+    if (!$result_t) {
+        printf("Error: %s\n", mysqli_error($con));
+    }
+?>
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-route.js"></script>
+        <script src="js/angular-script.js"></script>
+        <title>Guest</title>
+    </head>
+    <body>
+        <div ng-app="quizzy" ng-controller="loginCtrl" name="myForm">
+            In which subject you want to give exam?
+            <table>
+            <?php
+                while($rows=mysqli_fetch_array($result_t))
+                {
+            ?>
+                    <tr>
+                        <td><a href="questions_guest.html?varname=<?php echo $rows['subject'];?>"><?php echo $rows['subject']; ?></a></td>
+                    </tr>
+            <?php
+                }
+            ?>
+        </table>
+        </div>
+    </body>
+</html>

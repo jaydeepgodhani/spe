@@ -1,0 +1,21 @@
+<html>
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-route.js"></script>
+
+        <script src="js/angular-script.js"></script>
+        <style>
+            input.ng-invalid {
+              border: 5px blueviolet;
+            }
+        </style>
+        <title>Index</title>
+    </head>
+    <body>
+        <div ng-app="quizzy" ng-controller="firstCtrl" name="quizzy">
+            <button ng-click="login()">Login</button>
+            <button ng-click="register()">Register</button>
+            <button ng-click="guest()">Continue as Guest</button>
+        </div>
+    </body>
+</html>

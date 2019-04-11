@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-route.js"></script>
+
+        <script src="js/angular-script.js"></script>
+        <style>
+        </style>
+        <title>Login</title>
+    </head>
+    <body>
+        <form action="database/login.html" method="POST">
+        <div ng-app="quizzy" ng-controller="loginCtrl" name="myForm">
+            Username: <input type="text" name="username" ng-model="username"/><br><br>
+            Password: <input type="password" name="password" ng-model="password"/><br><br>
+            <input type="submit" value="Login" name="btn" />
+            </div>
+        </form>
+    </body>
+</html>

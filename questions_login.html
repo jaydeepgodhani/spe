@@ -1,0 +1,62 @@
+<?php 
+    include_once('database/database_connections.php');
+    error_reporting(-1);
+    error_reporting(E_ALL);
+    ini_set('display_errors', 'On');
+    $var_value = $_GET['varname'];
+
+    $query_t = "select * from questions where subject='$var_value' order by RAND()";
+    $result_t = mysqli_query($con,$query_t);
+    $total_rows = mysqli_num_rows($result_t);
+    $per_page = 4;
+    $total_pages = ceil($total_rows/$per_page);
+
+    $myArray = array();
+    while($row = mysqli_fetch_assoc($result_t)) {
+        $myArray[] = $row;
+    }
+    $temp2 = json_encode($myArray);
+
+    $spac = "9";
+    $jsonArray = array();
+    $jsonquery2 = "select id,\"\" as answer from questions where subject='$var_value'";
+    $jsonresult = mysqli_query($con,$jsonquery2);
+    while($jsonrow = mysqli_fetch_assoc($jsonresult)) {
+        $jsonArray[] = $jsonrow;
+    }
+    $jsondata = json_encode($jsonArray);
+    print_r($jsondata);
+    $_SESSION['datajson'] = $jsondata;
+    $_SESSION['per_page'] = $per_page;
+    $_SESSION['total_pages'] = $total_pages;
+    $_SESSION['result_t'] = $temp2;
+
+?>
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-route.js"></script>
+        <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <script src="js/angular-script.js"></script>
+        <script src="js/general.js"></script>
+        <title>Login</title>
+    </head>
+    <body>
+        <form action="database/verify.php" method="POST">
+        <div ng-app="quizzy" ng-controller="loginCtrl" name="myForm">
+            Since you are an user you can give a full test on selected subject
+            <?php
+                for($b=1;$b<=$total_pages;$b++)
+                {
+            ?>
+            <a name="question" id="<?php echo $b?>" multiplier="<?php if($b!=$total_pages){echo $per_page;}else{echo $total_rows%$per_page;} ?>" globalmul="<?php echo $per_page?>"><?php echo $b?></a>
+            <?php 
+                }
+            ?>
+            <div id="content"></div>
+            <input type="submit" value="Submit" >
+        </div>
+        </form>
+    </body>
+</html>

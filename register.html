@@ -1,0 +1,22 @@
+<html>
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-route.js"></script>
+
+        <script src="js/angular-script.js"></script>
+        <style>
+        </style>
+        <title>Register</title>
+    </head>
+    <body>
+        <form action="database/register.php" method="POST">
+        <div ng-app="quizzy" ng-controller="registerCtrl" name="myForm">
+            Enter Username: <input type="text" name="uname" ng-model="username" ><br><br>
+            Enter Password: <input type="password" name="pass1" ng-model="password1" ><br><br>
+            Retype Password: <input type="password" name="pass2" ng-model="password2" ><div ng-if="password1 != password2">Repeated pwd should match!</div>
+            <br><br>
+            <input type="submit" value="Register" ng-disabled="password1 != password2" />                    
+        </div>
+        </form>
+    </body>
+</html>

@@ -1,0 +1,72 @@
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-route.js"></script>
+        <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <script src="js/angular-script.js"></script>
+        <script>
+            $(document).ready(function(){
+            $('select.status').on('change',function () {
+                    var decision = $(this).val();
+                    var id = $('td.myid').html();
+                    alert(decision);
+                    $.ajax({
+                             type: "POST",
+                             url: "savedecision.php",
+                             data: {decision: decision, id: id },
+                             success: function(msg) {
+                                 $('#autosavenotify').text(msg);
+                             }
+                  })
+              });
+            });
+        </script>
+        <title>Login</title>
+        <?php
+            session_start();
+
+            $id2 = $_GET['id'];
+            $id2 = $id2 - 1;
+            $multiplier2 = $_GET['multiplier'];
+            $glob2 = $_GET['glob'];
+
+            $finalresult = $_SESSION['result_t'];
+            $totalpages2 = $_SESSION['total_pages'];
+            $jsondata = $_SESSION['datajson'];
+            $dataset = json_decode($finalresult, true);
+            $datasetradio = json_decode($jsondata, true);
+        ?>
+    </head>
+        <div name= "question_div" ng-controller="submitCtrl">
+                <?php
+                    $id2 = $id2 * $glob2;
+                    $incr ;
+                    $op1 ;$op2 ;$op3 ;$op4 ;$idnum;
+                    for($b=1;$b<=$multiplier2;$b++)
+                    {
+                ?>
+                <table>
+                <?php
+                        $idnum = $dataset[$id2]["id"];$op1 = $dataset[$id2]["option1"];$op2 = $dataset[$id2]["option2"];
+                        $op3 = $dataset[$id2]["option3"];$op4 = $dataset[$id2]["option4"];
+                        $incr = $id2 + 1;
+                ?>
+                        <tr>   
+                            <td><?php echo $incr?></td>
+                            <td><?php echo $dataset[$id2]["question"]?></td>
+                        </tr>
+                        <tr>
+                            <td><input type="radio" name="<?php echo $idnum ?>" value="<?php echo $op1?>"><?php echo $op1?></td>
+                            <td><input type="radio" name="<?php echo $idnum ?>" value="<?php echo $op2?>"><?php echo $op2?></td>
+                        </tr>
+                        <tr>
+                            <td><input type="radio" name="<?php echo $idnum ?>" value="<?php echo $op3?>"><?php echo $op3?></td>
+                            <td><input type="radio" name="<?php echo $idnum ?>" value="<?php echo $op4?>"><?php echo $op4?></td>
+                        </tr>    
+                <?php
+                        $datasetradio[$idnum]["answer"]="hithere";
+                        $id2 += 1;
+                    }
+                ?>
+            </table>
+        </div>
+<!--tr><div idnum="explain" ng-hide= true><?php echo $rows['explanation']?></div></tr-->

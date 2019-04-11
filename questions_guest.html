@@ -1,0 +1,44 @@
+<?php
+    ini_set('display_errors', 1);
+    error_reporting(E_ALL);    
+    $var_value = $_GET['varname'];
+    include_once('database/database_connections.php');
+    $query_t = "select * from questions where subject='$var_value' order by id limit 5";
+    $result_t = mysqli_query($con,$query_t);
+    if (!$result_t) {
+        printf("Error: %s\n", mysqli_error($con));
+    }
+?>
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-route.js"></script>
+        <script src="js/angular-script.js"></script>
+        <title>Guest</title>
+    </head>
+    <body>
+        <div ng-app="quizzy" ng-controller="loginCtrl" name="myForm">
+            Since you are guest user you can give a short test on chosen subject only
+            <table>
+            <?php
+                $incr = 1;
+                while($rows=mysqli_fetch_array($result_t))
+                {    
+            ?>
+                    <tr>
+                        <td><?php echo $incr?></td>
+                        <td><?php echo $rows['question']?></td>
+                        <td><?php echo $rows['option1']?></td>
+                        <td><?php echo $rows['option2']?></td>
+                        <td><?php echo $rows['option3']?></td>
+                        <td><?php echo $rows['option4']?></td>
+                    </tr>
+            <?php
+                    $incr+=1;
+                }
+            ?>
+        </table>
+        </div>
+    </body>
+</html>
