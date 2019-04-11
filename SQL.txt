@@ -1,0 +1,7 @@
+create database temp;
+
+use temp;
+
+create table users(username varchar2(20), password varchar2(20));
+
+create table questions(id int auto_increment, subject varchar(20), question varchar(200), option1 varchar(50), option2 varchar(50), option3 varchar(50), option4 varchar(50), answer varchar(50), explanation varchar(400), primary key(id));
